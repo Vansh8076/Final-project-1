@@ -1,12 +1,43 @@
 <%- include("../partials/header", { title }) %>
-<section class="form-wrap auth-wrap"><div class="form-card">
-  <p class="eyebrow">WELCOME BACK</p><h1>Log in</h1><p class="muted">Continue to your BlogSpace dashboard.</p>
-  <% if (errors.length) { %><div class="alert"><% errors.forEach(e => { %><p><%= e %></p><% }) %></div><% } %>
-  <form action="/login" method="POST" class="stack-form">
-    <label>Email address<input type="email" name="email" required value="<%= form?.email || '' %>" autocomplete="email"></label>
-    <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
-    <button class="button button-full" type="submit">Log in</button>
-  </form>
-  <p class="auth-switch">New to BlogSpace? <a href="/register">Create an account</a></p>
-</div></section>
+<section class="form-wrap auth-wrap">
+  <div class="form-card">
+    <p class="eyebrow">WELCOME BACK</p>
+    <h1>Log in</h1>
+    <p class="muted">Continue to your BlogSpace dashboard.</p>
+    <% if (typeof errors !== "undefined" && errors.length > 0) { %>
+      <div class="alert">
+        <% errors.forEach(e => { %>
+          <p><%= e %></p>
+        <% }) %>
+      </div>
+    <% } %>
+    <form action="/login" method="POST" class="stack-form">
+      <label>
+        Email address
+        <input
+          type="email"
+          name="email"
+          required
+          value="<%= (typeof form !== 'undefined' && form.email) ? form.email : '' %>"
+          autocomplete="email"
+        >
+      </label>
+      <label>
+        Password
+        <input
+          type="password"
+          name="password"
+          required
+          autocomplete="current-password"
+        >
+      </label>
+      <button class="button button-full" type="submit">
+        Log in
+      </button>
+    </form>
+    <p class="auth-switch">
+      New to BlogSpace? <a href="/register">Create an account</a>
+    </p>
+  </div>
+</section>
 <%- include("../partials/footer") %>
