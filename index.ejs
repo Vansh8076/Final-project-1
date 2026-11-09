@@ -1,0 +1,39 @@
+<%- include("../partials/header", { title }) %>
+<section class="hero">
+  <p class="eyebrow">IDEAS WORTH SHARING</p>
+  <h1>Stories, knowledge<br>and <span>new perspectives.</span></h1>
+  <p class="hero-copy">Explore the community's latest posts or sign in to publish your own story.</p>
+  <% if (currentUser) { %><a class="button" href="/blogs/new">＋ Write a blog</a><% } else { %><a class="button" href="/register">Start writing</a><% } %>
+</section>
+
+<section class="content-section">
+  <div class="section-heading">
+    <div><p class="eyebrow">THE COMMUNITY</p><h2>Explore blogs</h2></div>
+    <span class="muted"><%= blogs.length %> post<%= blogs.length === 1 ? "" : "s" %></span>
+  </div>
+  <form class="filter-bar" action="/blogs" method="GET">
+    <input type="search" name="q" value="<%= q %>" placeholder="Search titles and content..." aria-label="Search blogs">
+    <select name="category" aria-label="Filter by category">
+      <option value="">All categories</option>
+      <% CATEGORIES.forEach(c => { %><option value="<%= c %>" <%= category === c ? "selected" : "" %>><%= c %></option><% }) %>
+    </select>
+    <button class="button button-dark" type="submit">Search</button>
+    <% if (q || category) { %><a class="clear-link" href="/blogs">Clear</a><% } %>
+  </form>
+
+  <% if (!blogs.length) { %>
+    <div class="empty-state"><div class="empty-icon">✎</div><h3>No blogs found</h3><p>Try another search or be the first to publish a post.</p></div>
+  <% } else { %>
+    <div class="blog-grid">
+      <% blogs.forEach(blog => { %>
+        <article class="blog-card">
+          <div class="card-top"><span class="category-chip"><%= blog.category %></span><span class="muted"><%= new Date(blog.createdAt).toLocaleDateString() %></span></div>
+          <h3><a href="/blogs/<%= blog._id %>"><%= blog.title %></a></h3>
+          <p class="excerpt"><%= blog.content.length > 170 ? blog.content.slice(0, 170) + "…" : blog.content %></p>
+          <div class="card-footer"><span>By <strong><%= blog.author ? blog.author.name : "Unknown" %></strong></span><a href="/blogs/<%= blog._id %>">Read more →</a></div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+<%- include("../partials/footer") %>

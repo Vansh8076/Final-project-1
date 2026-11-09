@@ -1,0 +1,13 @@
+<%- include("../partials/header", { title }) %>
+<section class="form-wrap auth-wrap"><div class="form-card">
+  <p class="eyebrow">JOIN BLOGSPACE</p><h1>Create your account</h1><p class="muted">Create an account to publish and manage your blogs.</p>
+  <% if (errors.length) { %><div class="alert"><% errors.forEach(e => { %><p><%= e %></p><% }) %></div><% } %>
+  <form action="/register" method="POST" class="stack-form">
+    <label>Your name<input name="name" required minlength="2" maxlength="60" value="<%= form?.name || '' %>" autocomplete="name"></label>
+    <label>Email address<input type="email" name="email" required value="<%= form?.email || '' %>" autocomplete="email"></label>
+    <label>Password<input type="password" name="password" required minlength="8" autocomplete="new-password"><span class="field-hint">At least 8 characters.</span></label>
+    <button class="button button-full" type="submit">Create account</button>
+  </form>
+  <p class="auth-switch">Already registered? <a href="/login">Log in</a></p>
+</div></section>
+<%- include("../partials/footer") %>

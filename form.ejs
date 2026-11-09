@@ -1,0 +1,20 @@
+<%- include("../partials/header", { title }) %>
+<section class="form-wrap">
+  <a class="back-link" href="<%= blog._id ? `/blogs/${blog._id}` : '/blogs' %>">← Back</a>
+  <div class="form-card">
+    <p class="eyebrow">YOUR STORY</p>
+    <h1><%= heading %></h1>
+    <% if (errors.length) { %><div class="alert"><% errors.forEach(e => { %><p><%= e %></p><% }) %></div><% } %>
+    <form action="<%= formAction %>" method="POST" class="stack-form">
+      <label>Blog title<input name="title" required minlength="3" maxlength="120" value="<%= blog.title || '' %>" placeholder="Give your blog a clear title"></label>
+      <label>Category
+        <select name="category" required>
+          <% CATEGORIES.forEach(c => { %><option value="<%= c %>" <%= (blog.category || "Other") === c ? "selected" : "" %>><%= c %></option><% }) %>
+        </select>
+      </label>
+      <label>Content<textarea name="content" required minlength="10" maxlength="20000" rows="12" placeholder="Start writing your story..."><%= blog.content || '' %></textarea></label>
+      <div class="form-actions"><button class="button" type="submit"><%= blog._id ? "Save changes" : "Publish blog" %></button><a class="button button-light" href="/blogs">Cancel</a></div>
+    </form>
+  </div>
+</section>
+<%- include("../partials/footer") %>

@@ -1,0 +1,17 @@
+<%- include("../partials/header", { title }) %>
+<article class="article-wrap">
+  <a class="back-link" href="/blogs">← All blogs</a>
+  <div class="article-card">
+    <span class="category-chip"><%= blog.category %></span>
+    <h1><%= blog.title %></h1>
+    <div class="article-meta">By <strong><%= blog.author ? blog.author.name : "Unknown" %></strong> · <%= new Date(blog.createdAt).toLocaleString() %><% if (blog.updatedAt > blog.createdAt) { %> · Updated<% } %></div>
+    <div class="article-content"><%= blog.content %></div>
+    <% if (currentUser && blog.author && currentUser._id.toString() === blog.author._id.toString()) { %>
+      <div class="form-actions article-actions">
+        <a class="button button-dark" href="/blogs/<%= blog._id %>/edit">Edit blog</a>
+        <form action="/blogs/<%= blog._id %>/delete" method="POST" onsubmit="return confirm('Delete this blog permanently?')"><button class="button button-danger" type="submit">Delete</button></form>
+      </div>
+    <% } %>
+  </div>
+</article>
+<%- include("../partials/footer") %>

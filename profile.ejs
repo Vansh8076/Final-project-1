@@ -1,0 +1,16 @@
+<%- include("partials/header", { title }) %>
+<section class="form-wrap">
+  <div class="form-card">
+    <p class="eyebrow">ACCOUNT SETTINGS</p><h1>My profile</h1>
+    <% if (success) { %><div class="success"><%= success %></div><% } %>
+    <% if (errors.length) { %><div class="alert"><% errors.forEach(e => { %><p><%= e %></p><% }) %></div><% } %>
+    <div class="profile-avatar"><%= currentUser.name.charAt(0).toUpperCase() %></div>
+    <form action="/profile" method="POST" class="stack-form">
+      <label>Full name<input name="name" required minlength="2" maxlength="60" value="<%= currentUser.name %>"></label>
+      <label>Email address<input type="email" value="<%= currentUser.email %>" disabled></label>
+      <p class="muted small">Your email address cannot be changed from this page.</p>
+      <button class="button" type="submit">Save profile</button>
+    </form>
+  </div>
+</section>
+<%- include("partials/footer") %>

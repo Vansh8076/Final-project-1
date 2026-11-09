@@ -1,0 +1,25 @@
+<%- include("partials/header", { title }) %>
+<section class="dashboard-head">
+  <div><p class="eyebrow">YOUR WORKSPACE</p><h1>Welcome, <%= currentUser.name %>.</h1><p class="hero-copy">Manage your posts and keep sharing your ideas.</p></div>
+  <a class="button" href="/blogs/new">＋ Create blog</a>
+</section>
+<section class="content-section">
+  <div class="section-heading"><div><p class="eyebrow">PERSONAL DASHBOARD</p><h2>My blogs</h2></div><span class="muted"><%= blogs.length %> post<%= blogs.length === 1 ? "" : "s" %></span></div>
+  <% if (!blogs.length) { %>
+    <div class="empty-state"><div class="empty-icon">✎</div><h3>Your story starts here</h3><p>You have not published any blogs yet.</p><a class="button" href="/blogs/new">Write your first blog</a></div>
+  <% } else { %>
+    <div class="blog-grid">
+      <% blogs.forEach(blog => { %>
+        <article class="blog-card">
+          <div class="card-top"><span class="category-chip"><%= blog.category %></span><span class="muted"><%= new Date(blog.createdAt).toLocaleDateString() %></span></div>
+          <h3><a href="/blogs/<%= blog._id %>"><%= blog.title %></a></h3>
+          <p class="excerpt"><%= blog.content.length > 150 ? blog.content.slice(0, 150) + "…" : blog.content %></p>
+          <div class="card-footer"><a href="/blogs/<%= blog._id %>">View</a><a href="/blogs/<%= blog._id %>/edit">Edit</a>
+            <form action="/blogs/<%= blog._id %>/delete" method="POST" onsubmit="return confirm('Delete this blog permanently?')"><button class="text-danger" type="submit">Delete</button></form>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+<%- include("partials/footer") %>
